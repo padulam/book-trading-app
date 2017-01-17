@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
-import ajaxFunctions from '../../common/ajax-functions';
+import ajaxFunctions from '../common/ajax-functions';
+import SignIn from './sign-in.jsx';
+import SignOut from './sign-out.jsx';
 
 export default class Layout extends React.Component {
   constructor() {
@@ -39,8 +41,12 @@ export default class Layout extends React.Component {
   }
 
   render(){
+    let signIn;
+
     if(!this.state.user){
-      var signIn = <SignIn AuthenticateTwitter={this._AuthenticateTwitter}/>;
+      signIn = <SignIn AuthenticateTwitter={this._AuthenticateTwitter}/>;
+    } else{
+      signIn = <SignOut DeauthenticateTwitter={this._DeauthenticateTwitter}/>;
     }
 
     return(
@@ -54,7 +60,7 @@ export default class Layout extends React.Component {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <Link to="/" className="navbar-brand">App Home</Link>
+              <Link to="/" className="navbar-brand">BookSwap <i className="fa fa-book" aria-hidden="true"></i></Link>
             </div>
             <div className="collapse navbar-collapse" id="voting-app-navbar">
               <ul className="nav navbar-nav navbar-right">
@@ -66,21 +72,5 @@ export default class Layout extends React.Component {
         {this.props.children}
       </div>
     );
-  }
-}
-
-class SignOut extends React.Component {
-  render(){
-    return (<button onClick={this.props.DeauthenticateTwitter}  className="btn btn-twitter sign-out navbar-btn">
-              <span className="fa fa-twitter"></span> Sign Out
-            </button>);
-  }
-}
-
-class SignIn extends React.Component {
-  render(){
-    return (<li><button onClick={this.props.AuthenticateTwitter}  className="btn btn-twitter navbar-btn">
-              <span className="fa fa-twitter"></span> Sign in with Twitter
-            </button></li>);
   }
 }

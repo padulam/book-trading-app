@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import Home from './components/home.jsx';
 import Layout from './components/layout.jsx';
-import ajaxFunctions from '../common/ajax-functions';
+import ajaxFunctions from './common/ajax-functions';
 import {browserHistory, Router, Route, IndexRoute} from 'react-router';
 
 const app = (
@@ -13,4 +13,4 @@ const app = (
   </Router>
 );
 
-render(app, document.getElementById('app'));
+render(app, document.getElementById('bookSwapApp'));

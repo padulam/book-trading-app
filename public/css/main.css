@@ -3,11 +3,17 @@ body{
   height: 100%;
 }
 
-#app{
+#bookSwapApp{
   min-height: 100%;
 }
 
 .footer {
   width: 100%;
   padding: .5%;
+  background-color: black;
+  color: white;
+}
+
+.footer a{
+  color: white;
 }
