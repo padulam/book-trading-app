@@ -1,6 +1,10 @@
 module.exports = function(app, passport){
   var path = require('path');
   var dir = process.cwd();
+  var bodyParser = require('body-parser');
+  var jsonParser = bodyParser.json();
+  var BookTradingApi = require('../controllers/api/book-trading-api');
+  var bookTradingApi = new BookTradingApi();
 
   app.get('/', function(request, response){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
@@ -26,4 +30,6 @@ module.exports = function(app, passport){
       failureRedirect: '/',
       failureFlash: true
     }));
+
+  app.post('/update-profile/:twitter_id', jsonParser, bookTradingApi.updateUserProfile);
 };
