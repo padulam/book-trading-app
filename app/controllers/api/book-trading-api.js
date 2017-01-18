@@ -55,7 +55,7 @@ function BookTradingApi(){
         var firstMatch = bookData.items[0].volumeInfo;
         
         var bookResponse = {
-          name: firstMatch.title,
+          name: firdstMatch.title,
           authors: firstMatch.authors,
           description: firstMatch.description,
           thumbnailImage: firstMatch.imageLinks.thumbnail
@@ -65,6 +65,14 @@ function BookTradingApi(){
       } else{
         response.json({error: 'There is no book with that title.'});
       }
+    });
+  };
+
+  this.getAllBooks = function(request, response){
+    Books.find(function(err, books){
+      if(err) response.json({error: err});
+
+      response.json(books);
     });
   };
 }
