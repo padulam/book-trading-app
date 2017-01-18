@@ -31,5 +31,9 @@ module.exports = function(app, passport){
       failureFlash: true
     }));
 
-  app.post('/update-profile/:twitter_id', jsonParser, bookTradingApi.updateUserProfile);
+  app.post('/update-profile', jsonParser, bookTradingApi.updateUserProfile);
+
+  app.post('/add-book', jsonParser, bookTradingApi.addBook);
+
+  app.get('/get-book-data/:book', bookTradingApi.getBookData);
 };

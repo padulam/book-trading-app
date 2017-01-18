@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var Book = new Schema({
   name: String,
-  author: String,
+  authors: Array,
   description: String,
   thumbnailImage: String,
   owner: String,
