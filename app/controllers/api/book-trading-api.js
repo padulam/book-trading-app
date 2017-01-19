@@ -76,6 +76,28 @@ function BookTradingApi(){
     });
   };
 
+  this.initiateTrade = function(request, response){
+    if(request.user){
+      Books.findOne({_id: request.params.book_id}, function(err, book){
+        if(err) response.json({error: err});
+
+        book.trades.push({
+          requestor: request.user.twitter.username,
+          status: "Pending",
+          dateRequests: Date()
+        });
+
+        book.save(function(err){
+          if(err) response.json({error: err});
+
+          response.json(book);
+        });
+      });
+    } else{
+      response.json({error: 'You must be logged in to use this feature'});
+    }
+  };
+
   this.getTradeOffers = function(request, response){
     if(request.user){
       Books.find({owner: request.user.twitter.username}, function(err, books){
@@ -85,7 +107,10 @@ function BookTradingApi(){
 
         for(var i=0; i<books.length; i++){
           if(book[i].trades.length>0){
-            trades.concat(book[i].trades);
+            trades.concat({
+              id: book[i]._id,
+              trades: book[i].trades
+            });
           }
         }
         
