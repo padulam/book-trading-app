@@ -38,4 +38,6 @@ module.exports = function(app, passport){
   app.get('/get-book-data/:book', bookTradingApi.getBookData);
 
   app.get('/get-all-books', bookTradingApi.getAllBooks);
+
+  app.get('/get-all-trade-offers', bookTradingApi.getTradeOffers);
 };

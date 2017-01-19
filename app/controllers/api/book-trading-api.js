@@ -34,7 +34,7 @@ function BookTradingApi(){
     book.description = request.body.description;
     book.thumbnailImage = request.body.thumbnailImage;
     book.owner = request.user.twitter.username;
-    book.pendingTrades = [];
+    book.trades = [];
     book.temporaryOwner = undefined;
 
     book.save(function(err){
@@ -74,6 +74,30 @@ function BookTradingApi(){
 
       response.json(books);
     });
+  };
+
+  this.getTradeOffers = function(request, response){
+    if(request.user){
+      Books.find({owner: request.user.twitter.username}, function(err, books){
+        if(err) response.json({error: err});
+
+        var trades = [];
+
+        for(var i=0; i<books.length; i++){
+          if(book[i].trades.length>0){
+            trades.concat(book[i].trades);
+          }
+        }
+        
+        if(trades.length>0){
+          response.json(trades);
+        } else{
+          response.json({message: 'You have no trades at this time!'});
+        }
+      });
+    } else{
+      response.json({error: 'You must be logged in to use this feature'});
+    }
   };
 }
 
