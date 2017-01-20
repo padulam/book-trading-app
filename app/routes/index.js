@@ -49,5 +49,9 @@ module.exports = function(app, passport){
 
   app.get('/get-all-trade-offers', loggedIn, bookTradingApi.getTradeOffers);
 
+  app.get('/get-all-trade-requests', loggedIn, bookTradingApi.getTradeRequests);
+
   app.post('/initiate-trade/:book_id', loggedIn, bookTradingApi.initiateTrade);
+
+  app.post('/address-trade-offer', loggedIn, jsonParser, bookTradingApi.addressTradeOffer);
 };

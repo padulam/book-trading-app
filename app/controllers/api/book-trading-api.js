@@ -171,6 +171,34 @@ function BookTradingApi(){
       }
     });
   };
+
+  this.addressTradeOffer = function(request, response){
+    Books.findOne({_id: request.body.book_id}, function(err, book){
+      var i = 0;
+      var foundTrade = false;
+
+      do{
+        if(book.trades[i].requestor === request.user.twitter.username && book.trades[i].status === "Pending"){
+          if(request.body.accepted){
+            book.trade[i].status = "Accepted";
+            book.temporaryOwner = request.user.twitter.username;
+          } else{
+            book.trade[i].status = "Declined";
+          }
+          
+          foundTrade = true;
+        }
+
+        i++;
+      } while(pendTrade === undefined && i<book.trade.length);
+
+      book.save(function(err){
+        if(err) response.json({error: err});
+
+        response.json(book);
+      });
+    });
+  }
 }
 
 module.exports = BookTradingApi;
