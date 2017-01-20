@@ -3,6 +3,8 @@ var Users = require('../../models/users');
 var httpRequest = require('request');
 
 function BookTradingApi(){
+  var self = this;
+
   this.updateUserProfile = function(request, response){
     User.findOne({'twitter.id': request.user.twitter.username}, 
       function(err, user){
@@ -28,24 +30,7 @@ function BookTradingApi(){
   };
 
   this.addBook = function(request, response){
-    var book = new Books();
-    book.name = request.body.name;
-    book.authors = request.body.authors;
-    book.description = request.body.description;
-    book.thumbnailImage = request.body.thumbnailImage;
-    book.owner = request.user.twitter.username;
-    book.trades = [];
-    book.temporaryOwner = undefined;
-
-    book.save(function(err){
-      if(err) response.json(err);
-
-      response.json(book);
-    });
-  }
-
-  this.getBookData = function(request, response){
-    var apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + request.params.book + "&key=" + process.env.GOOGLE_BOOK_API_KEY;
+    var apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + request.body.name + "&key=" + process.env.GOOGLE_BOOK_API_KEY;
 
     httpRequest(apiUrl, function(httpErr, httpResponse, data){
       if(httpErr) response.json({error: httpErr});
@@ -61,7 +46,20 @@ function BookTradingApi(){
           thumbnailImage: firstMatch.imageLinks.thumbnail
         };
 
-        response.json(bookResponse);
+        var book = new Books();
+        book.name = bookResponse.name;
+        book.authors = bookResponse.authors;
+        book.description = bookResponse.description;
+        book.thumbnailImage = bookResponse.thumbnailImage;
+        book.owner = request.user.twitter.username;
+        book.trades = [];
+        book.temporaryOwner = undefined;
+
+        book.save(function(err){
+          if(err) response.json(err);
+
+          response.json(book);
+        });
       } else{
         response.json({error: 'There is no book with that title.'});
       }

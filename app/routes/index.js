@@ -51,8 +51,6 @@ module.exports = function(app, passport){
 
   app.post('/api/add-book', loggedIn, jsonParser, bookTradingApi.addBook);
 
-  app.get('/api/get-book-data/:book', loggedIn, bookTradingApi.getBookData);
-
   app.get('/api/get-all-books', loggedIn, bookTradingApi.getAllBooks);
 
   app.get('/api/get-all-trade-offers', loggedIn, bookTradingApi.getTradeOffers);
