@@ -18,6 +18,14 @@ module.exports = function(app, passport){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 
+  app.get('/add-book', function(request, response){
+    response.sendFile(path.resolve(dir, 'public', 'index.html'));
+  });
+
+  app.get('/', function(request, response){
+    response.sendFile(path.resolve(dir, 'public', 'index.html'));
+  });
+
   app.route('/logout')
     .get(function(request, response){
       request.logout();
@@ -39,19 +47,21 @@ module.exports = function(app, passport){
       failureFlash: true
     }));
 
-  app.post('/update-profile', loggedIn, jsonParser, bookTradingApi.updateUserProfile);
+  app.post('/api/update-profile', loggedIn, jsonParser, bookTradingApi.updateUserProfile);
 
-  app.post('/add-book', loggedIn, jsonParser, bookTradingApi.addBook);
+  app.post('/api/add-book', loggedIn, jsonParser, bookTradingApi.addBook);
 
-  app.get('/get-book-data/:book', loggedIn, bookTradingApi.getBookData);
+  app.get('/api/get-book-data/:book', loggedIn, bookTradingApi.getBookData);
 
-  app.get('/get-all-books', loggedIn, bookTradingApi.getAllBooks);
+  app.get('/api/get-all-books', loggedIn, bookTradingApi.getAllBooks);
 
-  app.get('/get-all-trade-offers', loggedIn, bookTradingApi.getTradeOffers);
+  app.get('/api/get-all-trade-offers', loggedIn, bookTradingApi.getTradeOffers);
 
-  app.get('/get-all-trade-requests', loggedIn, bookTradingApi.getTradeRequests);
+  app.get('/api/get-all-trade-requests', loggedIn, bookTradingApi.getTradeRequests);
 
-  app.post('/initiate-trade/:book_id', loggedIn, bookTradingApi.initiateTrade);
+  app.post('/api/initiate-trade/:book_id', loggedIn, bookTradingApi.initiateTrade);
 
-  app.post('/address-trade-offer', loggedIn, jsonParser, bookTradingApi.addressTradeOffer);
+  app.post('/api/address-trade-offer', loggedIn, jsonParser, bookTradingApi.addressTradeOffer);
+
+  app.get('/api/get-my-books', loggedIn, bookTradingApi.getMyBooks);
 };

@@ -76,6 +76,14 @@ function BookTradingApi(){
     });
   };
 
+  this.getMyBooks = function(request, response){
+    Books.find({owner: request.user.twitter.username}, function(err, books){
+      if(err) response.json({error: err});
+
+      response.json(books);
+    });
+  };
+
   this.initiateTrade = function(request, response){
     Books.findOne({_id: request.params.book_id}, function(err, book){
       if(err) response.json({error: err});
