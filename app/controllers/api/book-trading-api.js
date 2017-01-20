@@ -77,52 +77,99 @@ function BookTradingApi(){
   };
 
   this.initiateTrade = function(request, response){
-    if(request.user){
-      Books.findOne({_id: request.params.book_id}, function(err, book){
+    Books.findOne({_id: request.params.book_id}, function(err, book){
+      if(err) response.json({error: err});
+
+      book.trades.push({
+        requestor: request.user.twitter.username,
+        status: "Pending",
+        dateRequested: Date()
+      });
+
+      //Stores user's trade request
+      User.findOne({'twitter.id': request.user.twitter.username}, 
+        function(err, user){
+          if(err) return response.json({error: err});
+          
+          if(user){
+            var sameBooks = user.myTrades.filter(function(myTrade){
+              return myTrade === book._id;
+            });
+
+            if(sameBooks.length>0){
+              user.myTrades.push(book._id);
+              user.save(function(err){
+                if(err) response.json({error: err});
+
+                response.json(user);
+              });
+            }
+          }else{
+            response.json({error: 'User does not exist!'});
+          }
+        }
+      );
+
+      book.save(function(err){
         if(err) response.json({error: err});
 
-        book.trades.push({
-          requestor: request.user.twitter.username,
-          status: "Pending",
-          dateRequests: Date()
-        });
-
-        book.save(function(err){
-          if(err) response.json({error: err});
-
-          response.json(book);
-        });
+        response.json(book);
       });
-    } else{
-      response.json({error: 'You must be logged in to use this feature'});
-    }
+    });
+  };
+
+  this.getTradeRequests = function(request, response){
+    User.findOne({'twitter.id': request.user.twitter.username}, 
+        function(err, user){
+          if(err) return response.json({error: err});
+          
+          if(user){
+            var myTrades = [];
+
+            for(var i = 0; i<user.trades.length;i++){
+              Books.findOne({'_id': user.trades[i]}, function(err, book){
+                if(err) response.json({error: err});
+
+                var temp = book.trades.filter(function(trade){
+                  return trade.requestor === user.twitter.username;
+                });
+
+                myTrades.concat({
+                  id: book[i]._id,
+                  trades: temp
+                });
+              });
+            }
+            
+            response.json(myTrades);
+          }else{
+            response.json({error: 'User does not exist!'});
+          }
+        }
+      );
   };
 
   this.getTradeOffers = function(request, response){
-    if(request.user){
-      Books.find({owner: request.user.twitter.username}, function(err, books){
-        if(err) response.json({error: err});
+    Books.find({owner: request.user.twitter.username}, function(err, books){
+      if(err) response.json({error: err});
 
-        var trades = [];
+      var trades = [];
 
-        for(var i=0; i<books.length; i++){
-          if(book[i].trades.length>0){
-            trades.concat({
-              id: book[i]._id,
-              trades: book[i].trades
-            });
-          }
+      for(var i=0; i<books.length; i++){
+        if(book[i].trades.length>0){
+          trades.concat({
+            id: book[i]._id,
+            trades: book[i].trades
+          });
         }
-        
-        if(trades.length>0){
-          response.json(trades);
-        } else{
-          response.json({message: 'You have no trades at this time!'});
-        }
-      });
-    } else{
-      response.json({error: 'You must be logged in to use this feature'});
-    }
+      }
+      
+      if(trades.length>0){
+        response.json(trades);
+      } else{
+        response.json({message: 'You have no trades at this time!'});
+      }
+    });
   };
 }
 

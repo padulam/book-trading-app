@@ -12,7 +12,8 @@ var User = new Schema({
   address: String,
   city: String,
   state: String,
-  created: Date
+  created: Date,
+  myTrades: Array
 });
 
 module.exports = mongoose.model('User', User);

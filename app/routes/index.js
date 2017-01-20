@@ -6,6 +6,14 @@ module.exports = function(app, passport){
   var BookTradingApi = require('../controllers/api/book-trading-api');
   var bookTradingApi = new BookTradingApi();
 
+  function loggedIn(request, response, next){
+    if(request.user!==undefined){
+      return next();
+    } else{
+      response.redirect('/')
+    }
+  }
+
   app.get('/', function(request, response){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
@@ -31,15 +39,15 @@ module.exports = function(app, passport){
       failureFlash: true
     }));
 
-  app.post('/update-profile', jsonParser, bookTradingApi.updateUserProfile);
+  app.post('/update-profile', loggedIn, jsonParser, bookTradingApi.updateUserProfile);
 
-  app.post('/add-book', jsonParser, bookTradingApi.addBook);
+  app.post('/add-book', loggedIn, jsonParser, bookTradingApi.addBook);
 
-  app.get('/get-book-data/:book', bookTradingApi.getBookData);
+  app.get('/get-book-data/:book', loggedIn, bookTradingApi.getBookData);
 
-  app.get('/get-all-books', bookTradingApi.getAllBooks);
+  app.get('/get-all-books', loggedIn, bookTradingApi.getAllBooks);
 
-  app.get('/get-all-trade-offers', bookTradingApi.getTradeOffers);
+  app.get('/get-all-trade-offers', loggedIn, bookTradingApi.getTradeOffers);
 
-  app.post('/initiate-trade/:book_id', bookTradingApi.initiateTrade);
+  app.post('/initiate-trade/:book_id', loggedIn, bookTradingApi.initiateTrade);
 };
