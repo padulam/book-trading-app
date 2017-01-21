@@ -22,7 +22,11 @@ module.exports = function(app, passport){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 
-  app.get('/', function(request, response){
+  app.get('/all-books', function(request, response){
+    response.sendFile(path.resolve(dir, 'public', 'index.html'));
+  });
+
+  app.get('/my-books', function(request, response){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 

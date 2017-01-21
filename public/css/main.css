@@ -17,3 +17,38 @@ body{
 .footer a{
   color: white;
 }
+
+.book-container{
+  margin-top: 3%;
+}
+
+.book-jumbo{
+  padding: 3%;
+  margin: 0 auto;
+  min-height: 500px;
+}
+
+.add-book-title{
+  margin: 3% 0%;
+}
+
+.my-books-table{
+  background-color: white;
+  margin-top: 3%;
+}
+
+.my-books-table tbody{
+  text-align: left;
+}
+
+.my-books-table caption{
+  text-align: center;
+  font-size: 2em;
+}
+
+.my-books-jumbo{
+  padding: 3%;
+  margin: 0 auto;
+  min-height: 500px;
+  text-align: center;
+}

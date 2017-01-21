@@ -40,10 +40,10 @@ function BookTradingApi(){
         var firstMatch = bookData.items[0].volumeInfo;
         
         var bookResponse = {
-          name: firdstMatch.title,
+          name: firstMatch.title,
           authors: firstMatch.authors,
           description: firstMatch.description,
-          thumbnailImage: firstMatch.imageLinks.thumbnail
+          thumbnailImage: firstMatch.imageLinks !== undefined ? firstMatch.imageLinks.thumbnail : undefined
         };
 
         var book = new Books();

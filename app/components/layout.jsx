@@ -42,11 +42,26 @@ export default class Layout extends React.Component {
 
   render(){
     let signIn;
+    let userProfile;
+    let addBook;
+    let allBooks;
+    let myBooks;
 
     if(!this.state.user){
       signIn = <SignIn AuthenticateTwitter={this._AuthenticateTwitter}/>;
     } else{
-      signIn = <SignOut DeauthenticateTwitter={this._DeauthenticateTwitter}/>;
+      userProfile = (
+        <li className="dropdown">
+          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.state.user.twitter.displayName} <span className="caret"></span></a>
+          <ul className="dropdown-menu">
+            <li><Link to="/profile">Profile</Link></li>
+            <li role="separator" className="divider"></li>
+            <li className="text-center"><SignOut DeauthenticateTwitter={this._DeauthenticateTwitter} /></li>
+            </ul>
+          </li>);
+      allBooks = <li><Link to="/all-books">All Books</Link></li>;
+      addBook = <li><Link to="/add-book">Add Book</Link></li>;
+      myBooks = <li><Link to="/my-books">My Books</Link></li>
     }
 
     return(
@@ -64,7 +79,10 @@ export default class Layout extends React.Component {
             </div>
             <div className="collapse navbar-collapse" id="voting-app-navbar">
               <ul className="nav navbar-nav navbar-right">
-                {signIn}
+                {allBooks}
+                {addBook}
+                {myBooks}
+                {signIn||userProfile}
               </ul>
             </div>
           </div>
