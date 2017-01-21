@@ -52,3 +52,23 @@ body{
   min-height: 500px;
   text-align: center;
 }
+
+.app-highlights{
+  color: black;
+  text-align: center;
+  padding: 3%;
+}
+
+.app-jumbotron{
+  background-color: black;
+}
+
+.app-header{
+  padding: 5%;
+  text-align: center;
+  color: white;
+}
+
+.navbar{
+  margin-bottom: 0;
+}
