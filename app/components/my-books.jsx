@@ -33,7 +33,7 @@ export default class MyBooks extends React.Component {
                 authors = {myBook.authors}
                 description = {myBook.description}
                 temporaryOwner = {myBook.temporaryOwner || "N/A"}
-                trades = {myBook.trades > 0 ? <ViewTrades /> : "N/A"}
+                trades = {myBook.trades.length > 0 ? <ViewTrades /> : "N/A"}
                 key = {myBook._id}
               />
     });
