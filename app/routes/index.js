@@ -18,15 +18,19 @@ module.exports = function(app, passport){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 
-  app.get('/add-book', function(request, response){
+  app.get('/add-book', loggedIn, function(request, response){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 
-  app.get('/all-books', function(request, response){
+  app.get('/all-books', loggedIn, function(request, response){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 
-  app.get('/my-books', function(request, response){
+  app.get('/my-books', loggedIn, function(request, response){
+    response.sendFile(path.resolve(dir, 'public', 'index.html'));
+  });
+
+  app.get('/profile', loggedIn, function(request, response){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 
