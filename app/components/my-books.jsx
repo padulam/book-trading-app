@@ -51,8 +51,8 @@ export default class MyBooks extends React.Component {
 
     return(
       <div className="container book-container">
-        <div className="jumbotron my-books-jumbo">
-          <h2>My Books</h2>
+        <div className="jumbotron books-jumbo">
+          <h2 className="text-center">My Books</h2>
           {myBooksDisplay}
         </div>
       </div>

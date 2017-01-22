@@ -12,6 +12,7 @@ var User = new Schema({
   address: String,
   city: String,
   state: String,
+  zip: String,
   created: Date,
   myTrades: Array
 });

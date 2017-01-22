@@ -6,7 +6,7 @@ function BookTradingApi(){
   var self = this;
 
   this.updateUserProfile = function(request, response){
-    User.findOne({'twitter.id': request.user.twitter.username}, 
+    Users.findOne({'twitter.username': request.user.twitter.username}, 
       function(err, user){
         if(err) return response.json({error: err});
         
@@ -16,6 +16,7 @@ function BookTradingApi(){
           user.address = request.body.address;
           user.city = request.body.city;
           user.state = request.body.state;
+          user.zip = request.body.zip;
 
           user.save(function(err){
             if(err) response.json({error: err});
@@ -93,7 +94,7 @@ function BookTradingApi(){
       });
 
       //Stores user's trade request
-      User.findOne({'twitter.id': request.user.twitter.username}, 
+      Users.findOne({'twitter.username': request.user.twitter.username}, 
         function(err, user){
           if(err) return response.json({error: err});
           
@@ -102,30 +103,29 @@ function BookTradingApi(){
               return myTrade === book._id;
             });
 
-            if(sameBooks.length>0){
+            if(sameBooks.length===0){
               user.myTrades.push(book._id);
-              user.save(function(err){
+            }
+
+            user.save(function(err){
+              if(err) response.json({error: err});
+
+              book.save(function(err){
                 if(err) response.json({error: err});
 
-                response.json(user);
+                self.getAllBooks(request, response);
               });
-            }
+            });
           }else{
             response.json({error: 'User does not exist!'});
           }
         }
       );
-
-      book.save(function(err){
-        if(err) response.json({error: err});
-
-        response.json(book);
-      });
     });
   };
 
   this.getTradeRequests = function(request, response){
-    User.findOne({'twitter.id': request.user.twitter.username}, 
+    Users.findOne({'twitter.id': request.user.twitter.username}, 
         function(err, user){
           if(err) return response.json({error: err});
           

@@ -7,7 +7,7 @@ var Book = new Schema({
   description: String,
   thumbnailImage: String,
   owner: String,
-  pendingTrades: Array,
+  trades: Array,
   temporaryOwner: String
 });
 

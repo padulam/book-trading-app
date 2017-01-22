@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MyBooksTable = (props) => {
+const AllBooksTable = (props) => {
   return(
     <table className="table table-hover table-bordered books-table">
       <thead>
@@ -8,15 +8,14 @@ const MyBooksTable = (props) => {
           <th>Name</th>
           <th>Author(s)</th>
           <th>Description</th>
-          <th>Temporary Owner</th>
-          <th>Trade Offers</th>
+          <th>Availability</th>
         </tr>
       </thead>
       <tbody>
-        {props.myBooks}
+        {props.allBooks}
       </tbody>
     </table>
   );
 };
 
-export default MyBooksTable;
+export default AllBooksTable;
