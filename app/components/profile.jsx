@@ -1,5 +1,5 @@
 import React from 'react';
-import ContactInfo from 'contact-info.jsx';
+import ContactInfo from './contact-info.jsx';
 import ajaxFunctions from '../common/ajax-functions';
 
 export default class Profile extends React.Component {

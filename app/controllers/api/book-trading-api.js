@@ -162,11 +162,15 @@ function BookTradingApi(){
       var trades = [];
 
       for(var i=0; i<books.length; i++){
-        if(book[i].trades.length>0){
-          trades.concat({
-            id: book[i]._id,
-            trades: book[i].trades
-          });
+        if(books[i].trades.length>0){
+          for(var j=0; j<books[i].trades.length;j++){
+            books[i].trades[j]._id = books[i]._id;
+            books[i].trades[j].name = books[i].name;
+            books[i].trades[j].authors = books[i].authors;
+            books[i].trades[j].description = books[i].description;
+            books[i].trades[j].thumbnailImage = books[i].thumbnailImage;
+            trades.push(books[i].trades[j]);
+          }
         }
       }
       
@@ -179,29 +183,35 @@ function BookTradingApi(){
   };
 
   this.addressTradeOffer = function(request, response){
-    Books.findOne({_id: request.body.book_id}, function(err, book){
+    Books.findOne({_id: request.body.bookId}, function(err, book){
       var i = 0;
       var foundTrade = false;
 
       do{
-        if(book.trades[i].requestor === request.user.twitter.username && book.trades[i].status === "Pending"){
+        if(book.trades[i].requestor === request.body.requestor && book.trades[i].status === "Pending"){
           if(request.body.accepted){
-            book.trade[i].status = "Accepted";
-            book.temporaryOwner = request.user.twitter.username;
+            book.trades[i].status = "Accepted";
+            book.temporaryOwner = request.body.requestor;
+            //Close all other pending trades
+            for(var j = 0; j<book.trades.length; j++){
+              if (book.trades[j].status === "Pending") book.trades[j].status="Declined";
+            }
           } else{
-            book.trade[i].status = "Declined";
+            book.trades[i].status = "Declined";
           }
           
           foundTrade = true;
         }
 
         i++;
-      } while(pendTrade === undefined && i<book.trade.length);
+      } while(foundTrade === false && i<book.trades.length);
+
+      book.markModified('trades');      
 
       book.save(function(err){
         if(err) response.json({error: err});
 
-        response.json(book);
+        self.getTradeOffers(request, response);
       });
     });
   }

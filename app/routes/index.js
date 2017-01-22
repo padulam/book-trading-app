@@ -34,6 +34,10 @@ module.exports = function(app, passport){
     response.sendFile(path.resolve(dir, 'public', 'index.html'));
   });
 
+  app.get('/trades', loggedIn, function(request, response){
+    response.sendFile(path.resolve(dir, 'public', 'index.html'));
+  });
+
   app.route('/logout')
     .get(function(request, response){
       request.logout();

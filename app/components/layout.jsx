@@ -46,6 +46,7 @@ export default class Layout extends React.Component {
     let addBook;
     let allBooks;
     let myBooks;
+    let trades;
 
     if(!this.state.user){
       signIn = <SignIn AuthenticateTwitter={this._AuthenticateTwitter}/>;
@@ -61,7 +62,8 @@ export default class Layout extends React.Component {
           </li>);
       allBooks = <li><Link to="/all-books">All Books</Link></li>;
       addBook = <li><Link to="/add-book">Add Book</Link></li>;
-      myBooks = <li><Link to="/my-books">My Books</Link></li>
+      myBooks = <li><Link to="/my-books">My Books</Link></li>;
+      trades = <li><Link to="/trades">Trades</Link></li>
     }
 
     return(
@@ -82,6 +84,7 @@ export default class Layout extends React.Component {
                 {allBooks}
                 {addBook}
                 {myBooks}
+                {trades}
                 {signIn||userProfile}
               </ul>
             </div>

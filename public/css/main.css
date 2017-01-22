@@ -69,3 +69,7 @@ body{
 .contact-info-data{
   margin-top: 3%;
 }
+
+#acceptDecline{
+  display: inline-flex;
+}

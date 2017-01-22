@@ -1,8 +1,13 @@
 import React from 'react';
+import {browserHistory} from 'react-router';
 
 const ViewTrades = (props) => {
+  const _handleClick = () => {
+    browserHistory.push('/trades');
+  }
+
   return(
-    <button className="btn btn-primary">View</button>
+    <button onClick={_handleClick} className="btn btn-primary">View</button>
   );
 };
 
